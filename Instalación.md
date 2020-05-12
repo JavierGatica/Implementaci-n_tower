@@ -141,3 +141,116 @@ Referencia. https://docs.ansible.com/ansible-tower/latest/html/quickinstall/prep
 Para que Ansible Tower funcione correctamente, debe instalarse la última versión estable de Ansible utilizando el administrador de paquetes de su distribución
 
 *NOTA: Si Ansible ya está instalado en el sistema, el instalador de Ansible Tower no intenta reinstalarlo. Para que Ansible Tower funcione correctamente, la versión estable más reciente de Ansible debe instalarse utilizando el administrador de paquetes de su distribución.*
+
+### SELinux
+* Ansible Tower admite la política de SELinux dirigida
+* Se puede configurar como obligatorio, permisivo o deshabilitado
+* Otras políticas de SELinux no compatibles
+
+###Licencias y soporte
+* Licencia de prueba y suscripciones
+* Licencia de prueba disponible para evaluación sin costo
+* Ansible Tower Trial
+* Tres tipos de suscripciones:
+* Auto ayuda
+* Estándar empresarial
+* Enterprise Premium
+https://www.redhat.com/en/technologies/management/ansible/try-it/success
+https://docs.ansible.com/ansible-tower/latest/html/quickinstall/index.html
+
+### Edición Enterprise Standard
+La edición Enterprise Standard incluye una suscripción Enterprise con mantenimiento de software y actualizaciones con derecho a todas las funciones de Ansible Tower y soporte técnico 8x5. El precio se basa en el número de nodos gestionados. Se incluye el soporte de Ansible Playbook, que incluye ayuda con problemas de ejecución en tiempo de ejecución, asistencia con errores y trazas, y orientación limitada sobre prácticas recomendadas en la versión menor actual o anterior de Ansible.
+
+### Edición Enterprise Premium
+La edición Enterprise Premium también incluye una suscripción Enterprise con mantenimiento y actualizaciones de software y todas las funciones de Tower, pero con soporte técnico 24x7. El precio se basa en la cantidad de nodos administrados y se incluye el soporte Ansible Playbook.
+
+La información detallada sobre los precios y el soporte de Ansible Tower está disponible en los enlaces que se muestran aquí.
+
+# Instaladores de Ansible Tower
+
+### Instalador estandar.
+* Siempre contiene la última versión de Ansible Tower para Red Hat Enterprise Linux 7
+* El archivo es más pequeño, pero requiere conectividad a Internet para descargar paquetes de Ansible Tower desde repositorios
+
+http://releases.ansible.com/ansible-tower/setup/ansible-tower-setup-latest.tar.gz 
+
+### Instalador incluido para Red Hat Enterprise Linux 7
+* El archivo incluye un conjunto inicial de paquetes RPM para que Ansible Tower pueda instalarse en sistemas desconectados de Internet
+* Puede preferirse en entornos de alta seguridad.
+* Los sistemas aún necesitan acceso a paquetes de software para el canal de Red Hat Enterprise Linux 7 y Red Hat Enterprise Linux 7 Extras
+* No disponible para Ubuntu
+
+http://releases.ansible.com/ansible-tower/setup-bundle/ansible-tower-setup-bundle-latest.el7.tar.gz
+
+# Instalación Ansible Tower, pasos 1-2
+1.- Como usuario root, descargue el paquete de instalación de Ansible Tower
+2.- Extraiga el paquete de configuración y cámbielo al directorio que contiene los contenidos extraídos:
+
+    [root@towerhost ~]# tar xzf ansible-tower-setup-3.3.1.tar.gz
+    [root@towerhost ~]# cd ansible-tower-setup-3.3.1-1
+3.- Edite el archivo de inventario para establecer contraseñas para la admincuenta Ansible Tower ( admin_password), la cuenta de usuario de la base de datos PostgreSQL ( pg_password) y la cuenta de usuario de mensajería RabbitMQ ( rabbitmq_password):
+
+    [tower]
+    localhost ansible_connection=local
+    [database]
+
+    [all:vars]
+    admin_password='myadminpassword'
+
+    pg_host='' pg_port=''
+
+    pg_database='awx' pg_username='awx'
+    pg_password='somedatabasepassword'
+
+    rabbitmq_port=5672 rabbitmq_vhost=tower
+    rabbitmq_username=tower
+    rabbitmq_password='and-a-messaging-password'
+    rabbitmq_cookie=cookiemonster
+
+    # Needs to be true for fqdns and ip addresses rabbitmq_use_long_name=false
+
+4.- Ejecute el instalador de Ansible Tower ejecutando setup.sh script:
+
+      [root@tower ansible-tower-setup-3.2.3]# ./setup.sh
+      [warn] Will install bundled Ansible
+      Loaded plugins: langpacks, search-disabled-repos
+      epel-release-latest-7.noarch.rpm                                                                                    |  15 kB  00:00:00
+      Examining /var/tmp/yum-root-_gyWfD/epel-release-latest-7.noarch.rpm: epel-release-7-11.noarch
+      Marking /var/tmp/yum-root-_gyWfD/epel-release-latest-7.noarch.rpm to be installed
+      Resolving Dependencies
+      ... Output omitted ...
+      The setup process completed successfully.
+      Setup log saved to /var/log/tower/setup-2018-11-08-21:02:49.log
+      
+5.- Después de que el instalador termine, conéctese al sistema Ansible Tower usando el navegador web
+
+6.- Inicie sesión en la interfaz web de Ansible Tower como administrador utilizando la admin cuenta y la contraseña que configuró en el archivo de inventario del instalador
+
+7.- Ingrese la licencia de Ansible Tower proporcionada por Red Hat, acepte el acuerdo de licencia de usuario final
+
+### Navegación y uso
+* Ansible Tower configurado con:
+* Proyectos ansibles que contienen libros de jugadas
+* Inventarios confiables y credenciales de máquina necesarias para iniciar sesión en hosts de inventario y escalar privilegios
+* Plantilla de trabajo que especifica qué libro de jugadas desde qué proyecto se ejecuta en hosts en un inventario particular, utilizando credenciales de máquina particulares
+* El trabajo se crea cuando el usuario inicia la plantilla de trabajo para ejecutar el libro de jugadas en un inventario
+
+
+### Plantilla de trabajo
+* La plantilla de trabajo se puede usar repetidamente para iniciar trabajos con los mismos parámetros
+* La plantilla es como un ansible-playbookcomando enlatado , completo con opciones y argumentos, que está escrito o en el historial de shell
+* Iniciar un trabajo con la plantilla de trabajo es como ejecutar un ansible-playbookcomando desde el indicador de comandos
+
+### Puntos para recordar
+
+* Ansible Tower 3.3.1: solución de gestión centralizada para proyectos Ansible
+* Ansible Tower tiene dos opciones de instalación:
+* El instalador estándar descarga paquetes de repositorios de red
+* El instalador incluido incluye dependencias de software de terceros
+* Plantillas de trabajo: comandos preparados para ejecutar Playbooks de Ansible
+* Incluye inventario, credenciales de máquina, proyecto Ansible, Playbook Ansible
+* El trabajo se inicia desde la plantilla de trabajo, representa un libro de jugadas único ejecutado en el inventario de máquinas
+* Dashboard proporciona resúmenes del estado del host, inventarios, proyectos, trabajos ejecutados
+* El menú de navegación proporciona acceso a los enlaces Vistas, Recursos, Acceso y Administración
+* Los enlaces de la herramienta de administración proporcionan acceso a los detalles actuales del usuario, la información de Ansible Tower y la documentación en línea
+
