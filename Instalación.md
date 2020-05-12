@@ -13,6 +13,6 @@
 
 Este módulo describe cómo se puede usar Red Hat Ansible Tower para ejecutar y administrar Ansible de manera eficiente a escala empresarial. Explica las posibles arquitecturas de Ansible Tower y cubre las muchas funciones para controlar, asegurar y administrar Ansible en un entorno empresarial. Se explican los requisitos de instalación y dos tipos de instaladores, así como las opciones de licencia y soporte.
 
-### Introducción a la Torre Ansible
+# Introducción a la Torre Ansible <h5>
 
 
