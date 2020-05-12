@@ -24,3 +24,22 @@ A medida que la experiencia de una empresa con Ansible madura, a menudo encuentr
 * La ejecución de libros de jugadas puede requerir credenciales de administrador altamente privilegiadas y protegidas
 * Los equipos de TI que tradicionalmente usan herramientas GUI pueden encontrar intimidante la CLI de Ansible
 
+### Marco de referencia
+* Ansible Tower proporciona un marco para ejecutar y administrar Ansible de manera eficiente a escala empresarial
+* Ofrece interfaz web, control de acceso basado en roles (RBAC) y registro y auditoría centralizados
+* RESTful API facilita la integración con los flujos de trabajo y conjuntos de herramientas existentes de la empresa
+
+### Arquitectura.
+Ansible Tower es una aplicación web de Django diseñada para ejecutarse en un servidor Linux como una solución local y autohospedada que se superpone a la infraestructura Ansible existente de una empresa.
+
+Ansible Tower se deriva del proyecto anterior AnsibleWorks AWX. Los rastros de este linaje son evidentes en las muchas referencias de AWX en los archivos y estructuras de directorios actuales de Ansible Tower.
+
+### Interfaz web y API de Ansible Tower
+* Los usuarios interactúan con la infraestructura de Ansible a través de la interfaz web de Ansible Tower o la API RESTful
+* La interfaz web es un contenedor de interfaz gráfica que ejecuta llamadas contra API
+* Las acciones disponibles a través de la interfaz web también están disponibles a través de API
+* RESTful API esencial para integrar Ansible con herramientas y procesos de software existentes
+* Ansible Tower almacena datos en la base de datos de back-end PostgreSQL y utiliza el sistema de mensajería RabbitMQ
+
+Ansible Tower almacena sus datos en una base de datos de back-end PostgreSQL y hace uso del sistema de mensajería RabbitMQ. Las versiones de Ansible Tower anteriores a la versión 3.0 también se basaban en una base de datos MongoDB. Esta dependencia se eliminó en la versión 3.0, y los datos ahora se almacenan únicamente en una base de datos PostgreSQL.
+
