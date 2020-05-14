@@ -152,5 +152,3 @@ Los usuarios de Ansible Tower tienen acceso todo o nada a los repositorios de Gi
 Las credenciales para acceder al repositorio de Git pueden acceder a todos los contenidos del repositorio
 
 Asegúrese de mantener solo los libros de jugadas y los roles para compartir con la audiencia prevista en el mismo repositorio de Git
-
-Copyright © 2012-2019 Red Hat, Inc. - 2.9.1R
