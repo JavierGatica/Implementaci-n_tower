@@ -133,3 +133,24 @@ Empuja los cambios en el repositorio local al repositorio remoto
 ### git pull
 Obtiene actualizaciones del repositorio remoto al repositorio local
 Fusiona actualizaciones en el árbol de trabajo
+
+## Estructura de proyecto Ansible en Git
+* Variables y credenciales
+* No use host_vars y group_vars directorios en el proyecto
+* En cambio, almacene variables con Inventoryobjeto en Ansible Tower
+* En los libros de jugadas, no lo use vars_promptpara establecer variables
+* No funciona
+
+En cambio, use la funcionalidad de encuesta de Ansible Tower
+
+En Ansible Tower, los usuarios obtuvieron acceso a proyectos en sistemas de control de versiones a través de credenciales
+
+Proporcionar acceso a las fuentes de Git SCM a nivel de repositorio
+
+Los usuarios de Ansible Tower tienen acceso todo o nada a los repositorios de Git
+
+Las credenciales para acceder al repositorio de Git pueden acceder a todos los contenidos del repositorio
+
+Asegúrese de mantener solo los libros de jugadas y los roles para compartir con la audiencia prevista en el mismo repositorio de Git
+
+Copyright © 2012-2019 Red Hat, Inc. - 2.9.1R
