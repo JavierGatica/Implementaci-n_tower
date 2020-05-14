@@ -54,15 +54,15 @@ Realiza ediciones en su árbol de trabajo, que es una comprobación de una únic
 
 ### Etapas de archivo del árbol de trabajo
 
-## Modified
+### Modified
 * Se ha editado la copia del archivo en el árbol de trabajo.
 * La copia es diferente de la última versión en el repositorio
 
-## Staged
+### Staged
 * Archivo modificado agregado a la lista de archivos modificados para confirmar como conjunto
 * Conjunto aún no comprometido
 
-## Committed
+### Committed
 * Archivo modificado comprometido con el repositorio local
 
 ### ndicadores de aviso de shell
@@ -73,30 +73,30 @@ Realiza ediciones en su árbol de trabajo, que es una comprobación de una únic
 * (branch %): Los archivos no se rastrean
 * Combinaciones posibles, por ejemplo, (branch *+)
 
-### Agregar / actualizar contenido con subcomandos
+## Agregar / actualizar contenido con subcomandos
 
-## git status
+### git status
 * Muestra información sobre qué archivos en el árbol de trabajo son:
 * Modificado pero sin etapas
 * Sin seguimiento o nuevo
 * Organizado para la próxima confirmación
 
-## git add
+### git add
 * Prepara y prepara los archivos para ser comprometidos
 * El archivo debe estar organizado en el área de ensayo para guardarse en el repositorio en la próxima confirmación
 * Si realiza dos cambios a la vez:
 * Organice los archivos en dos confirmaciones para rastrear fácilmente los cambios.
 * Cada conjunto de cambios por etapas y comprometidos por separado
 
-## git rm
+### git rm
 * Elimina el archivo del directorio de trabajo
 * Eliminación de etapas del repositorio en la próxima confirmación
 
-## git reset
+### git reset
 * Elimina el archivo agregado para la próxima confirmación del área de preparación
 * No afecta el contenido del archivo en el árbol de trabajo
 
-## git commit
+### git commit
 * Confirma archivos almacenados en el repositorio local de Git
 * Requiere un mensaje de registro que explique el motivo por el que se está guardando el conjunto de archivos almacenados
 * Confirmar abortado si no hay mensaje
@@ -106,30 +106,30 @@ Realiza ediciones en su árbol de trabajo, que es una comprobación de una únic
 * No incluye ningún archivo creado sin seguimiento
 * Use git add agregar archivos y rastrearlos para futuras confirmaciones
 
-### Referencias rapidas de Git
+## Referencias rapidas de Git
 
-## git clone URL
+### git clone URL
 Clona el proyecto Git existente desde el repositorio remoto en la URL en el directorio actual
 
-## git status
+### git status
  Muestra el estado de los archivos modificados y almacenados en el árbol de trabajo.
 
-## git add file
+### git add file
 Archivo de etapas para la próxima confirmación
 
-## git rm file
+### git rm file
 Eliminación de etapas del archivo para la próxima confirmación
 
-## git reset
+### git reset
 Desinstala archivos para el próximo commit
 Opuesto de git add
 
-## git commit
+### git commit
 Confirma los archivos almacenados en el repositorio local con un mensaje descriptivo
 
-## git push
+### git push
 Empuja los cambios en el repositorio local al repositorio remoto
 
-## git pull
+### git pull
 Obtiene actualizaciones del repositorio remoto al repositorio local
 Fusiona actualizaciones en el árbol de trabajo
