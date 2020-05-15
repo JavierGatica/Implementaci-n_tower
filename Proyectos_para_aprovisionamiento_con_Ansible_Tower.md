@@ -141,14 +141,51 @@ Fusiona actualizaciones en el árbol de trabajo
 * En los libros de jugadas, no lo use vars_promptpara establecer variables
 * No funciona
 
-En cambio, use la funcionalidad de encuesta de Ansible Tower
+* En cambio, use la funcionalidad de encuesta de Ansible Tower
+* En Ansible Tower, los usuarios obtuvieron acceso a proyectos en sistemas de control de versiones a través de credenciales
+* Proporcionar acceso a las fuentes de Git SCM a nivel de repositorio
+* Los usuarios de Ansible Tower tienen acceso todo o nada a los repositorios de Git
+* Las credenciales para acceder al repositorio de Git pueden acceder a todos los contenidos del repositorio
+* Asegúrese de mantener solo los libros de jugadas y los roles para compartir con la audiencia prevista en el mismo repositorio de Git
 
-En Ansible Tower, los usuarios obtuvieron acceso a proyectos en sistemas de control de versiones a través de credenciales
+### Estructura de proyecto Ansible en Git
+* Almacene libros de jugadas, roles y otros detalles de proyectos de Ansible Tower en el sistema de control de versiones como Git
+* Simplifica la colaboración en el desarrollo del libro de jugadas y el trabajo compartido
+* El sistema proporciona un registro de los cambios para su uso como seguimiento de auditoría
+* Dele a cada proyecto su propio repositorio Git
+* Es mejor no asumir que los proyectos pueden importar roles o contenido de otros proyectos
+* Para importar roles utilizados por múltiples proyectos, haga que cada proyecto use submódulos Git
+* Limita el tamaño de descarga cuando se actualiza el libro de jugadas
+* Ayuda a los contribuyentes a evitar códigos confusos para diferentes proyectos
 
-Proporcionar acceso a las fuentes de Git SCM a nivel de repositorio
+### Plantillas de trabajo
 
-Los usuarios de Ansible Tower tienen acceso todo o nada a los repositorios de Git
+### admin
+* Permite al usuario eliminar la plantilla de trabajo o editar propiedades, incluidos los permisos asociados
+* Otorga permisos asociados executey readroles
+* No permite al usuario copiar la plantilla de trabajo
+* El usuario debe tener un userol en el proyecto para copiar la plantilla de trabajo asociada
 
-Las credenciales para acceder al repositorio de Git pueden acceder a todos los contenidos del repositorio
+### execute
+* Permite a los usuarios ejecutar y programar trabajos utilizando la plantilla de trabajo
+* Otorga permisos asociados con el readrol
+* El usuario con executerol en la plantilla de trabajo no necesita useroles en ninguno de los recursos asociados de Ansible Tower
 
-Asegúrese de mantener solo los libros de jugadas y los roles para compartir con la audiencia prevista en el mismo repositorio de Git
+### read
+* Otorga a los usuarios acceso de solo lectura para ver las propiedades de la plantilla de trabajo
+* Otorga acceso para ver otra información relacionada con la plantilla de trabajo
+* Trabajos ejecutados usando plantilla de trabajo
+* Permisos y notificaciones asociados
+
+## Puntos para recordar
+* Git es un sistema de control de versiones distribuido
+* Los usuarios clonan el proyecto Git desde el repositorio remoto al repositorio local, realizan cambios en el repositorio local y, cuando esté listo, envían los cambios al repositorio remoto para compartir con otros usuarios
+* El recurso del proyecto se usa para representar el proyecto Ansible
+* El proyecto se puede completar de diferentes maneras:
+* El método común es recuperar el proyecto de la fuente SCM
+* Este método requiere una credencial SCM para autenticarse en fuentes SCM
+* Las plantillas de trabajo definen parámetros para la ejecución de trabajos Ansible
+* La plantilla de trabajo debe especificar el proyecto del cual obtener el libro de jugadas para su ejecución
+* La plantilla de trabajo también usa el inventario para definir la lista de hosts administrados en los que ejecutar el libro de jugadas
+* La credencial de la máquina se usa para autenticar contra hosts administrados
+
