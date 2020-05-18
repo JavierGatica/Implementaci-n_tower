@@ -474,3 +474,143 @@ Cuando el script de restauración termine de ejecutarse, inicie sesión en la in
 
 Para obtener más información, consulte la sección "Copia de seguridad y restauración de la torre" de la Guía de administración de Ansible Tower .
 
+### Ansible Tower REST API
+Visión general
+* REST API puede controlar el entorno de Ansible Tower fuera de la interfaz web
+* Útil cuando se integra con scripts personalizados o aplicaciones externas que acceden a la API a través de HTTP
+* Cualquier lenguaje de programación, marco o sistema con soporte de protocolo HTTP puede usar API
+* Manera fácil de automatizar tareas repetitivas e integrar otros sistemas informáticos empresariales con la infraestructura de Ansible Tower
+* REST es una arquitectura de diseño que se centra en los recursos para un servicio específico y sus representaciones.
+* El cliente envía una solicitud al elemento del servidor ubicado en URI y realiza operaciones con métodos HTTP estándar
+* Ejemplos: GET, POST, PUT y DELETE
+* Proporciona comunicación sin estado entre el cliente y el servidor.
+* Cada solicitud del cliente actúa independientemente de otras solicitudes y contiene toda la información para completar la solicitud
+
+### Recuperación y listado de API REST
+* Para recuperar la representación del punto de entrada principal de la API:
+
+          [user@demo ~]# curl -X GET https://tower.lab.example.com/api/ -k
+          {"available_versions":{"v1":"/api/v1/","v2":"/api/v2/"},"custom_logo":"","custom_login_info":"","description":"AWX REST API","current_version":"/api/v2
+
+
+* Para enumerar y revisar todas las API:
+
+          [user@demo ~]# curl -X GET https://tower.lab.example.com/api/v2/ -k
+          {"authtoken":"/api/v2/authtoken/","ping":"/api/v2/ping/","instances":"/api/v2/instances/","instance_groups":"/api/v2/instance_groups/","config":"/api/v2/config/","settings":"/api/v2/settings/","me":"/api/v2/me/","dashboard":"/api/v2/dashboard/","organizations":"/api/v2/organizations/","users":"/api/v2/users/","projects":"/api/v2/projects/","project_updates":"/api/v2/project_updates/","teams":"/api/v2/teams/","credentials":"/api/v2/credentials/","credential_types":"/api/v2/credential_types/","inventory":"/api/v2/inventories/","inventory_scripts":"/api/v2/inventory_scripts/","inventory_sources":"/api/v2/inventory_sources/","inventory_updates":"/api/v2/inventory_updates/","groups":"/api/v2/groups/","hosts":"/api/v2/hosts/","job_templates":"/api/v2/job_templates/","jobs":"/api/v2/jobs/","job_events":"/api/v2/job_events/","ad_hoc_commands":"/api/v2/ad_hoc_commands/","system_job_templates":"/api/v2/system_job_templates/","system_jobs":"/api/v2/system_jobs/","schedules":"/api/v2/schedules/","roles":"/api/v2/roles/","notification_templates":"/api/v2/notification_templates/","notifications":"/api/v2/notifications/","labels":"/api/v2/labels/","unified_job_templates":"/api/v2/unified_job_templates/","unified_jobs":"/api/v2/unified_jobs/","activity_stream":"/api/v2/activity_stream/","workflow_job_templates":"/api/v2/workflow_job_templates/","workflow_jobs":"/api/v2/workflow_jobs/","workflow_job_template_nodes":"/api/v2/workflow_job_template_nodes/","workflow_job_nodes":"/api/v2/workflow_job_nodes/
+          
+
+Se puede acceder a los recursos, también conocidos como entidades de datos, a través de la API REST a través de rutas URI. La solicitud que se muestra en el primer ejemplo recupera una representación del punto de entrada principal de la API. Se puede acceder a la API utilizando un navegador web gráfico o herramientas de navegación de línea de comandos de Linux. En este caso, la solicitud accede a la API REST desde la línea de comandos emitiendo el método GET utilizando la curlherramienta.
+
+Ansible Tower ofrece una forma de enumerar y revisar todas las API disponibles, utilizando la URL que se muestra en el segundo ejemplo. Este punto de entrada proporciona una colección de enlaces en el entorno de la Torre Ansible. Como puede ver, hay muchos enlaces para elegir.
+
+
+### Recuperación de flujos de actividad y recursos que requieren credenciales
+* Para recuperar la lista de flujos de actividad:
+
+          [user@demo ~]# curl -X GET
+          https://tower.lab.example.com/api/v2/activity_stream/ -k
+          {"detail":"Authentication credentials were not provided."}
+          
+* Para acceder a los recursos que requieren credenciales:
+
+          [user@demo ~]# curl -X GET --user admin:redhat https://tower.lab.example.com/api/v2/activity_stream/ -k
+           {"count":12,"next":null,"previous":null,"results":[{"id":1,"type":"activity_stream","url":"/api/v2/activity_stream/1/","related":{},"summary_fields":{},"timestamp":"2018-05-07T05:48:38.851500Z","operation":"update","changes":{"modified":["2018-05-07 05:48:18.395608+00:00","2018-05-07 05:48:38.788555+00:00"]},"object1":"credential_type","object2":"","object_association":""},{"id":2,"type":"activity_stream","url":"/api/v2/activity_stream/2/","related":{"setting":"/api/v2/settings/ui/"},"summary_fields":{"setting":[{"category":"ui","name":"PENDO_TRACKING_STATE"}]},"timestamp":"2018-05-07T05:48:56.737551Z","operation":"create","changes":{"key":"PENDO_TRACKING_STATE","id":1,"value":"detailed"},"object1":"setting","object2":"","object_association":""},{"id":3,"type":"activity_stream","url":"/api/v2/activity_stream/3/","related":{"user":["/api/v2/users/1/"]},"summary_fields":{"user":[{"username":"admin","first_name":"","last_name":"","id":1}]},"timestamp":"2018-05-07T05:49:04.515772Z","operation":"create","changes":{"username":"admin","first_name":"","last_name":"","is_active":true,"id":1,"is_superuser":true,"is_staff":true,"password":"hidden","email":"admin@example.com","date_joined":"2018-05-07 05:49:04.422845+00:00"},"object1":"user","object2":"","object_association":""},{"id":4,"type":"activity_stream","url":"/api/v2/activity_stream/4/","related":{"organization":["/api/v2/organizations/1/"],"actor":"/api/v2/users/1/"},"summary_fields":{"organization":[{"description":"","id":1,"name":"Default"}],"actor":{"username":"admin","first_name":"","last_name":"","id":1}},"timestamp":"2018-05-07T05:49:43.312964Z","operation":"create","changes":{"description":"","id":1,"name":"Default"},"object1":"organization","object2":"","object_association":""},{"id":5,"type":"activity_stream","url":"/api/v2/activity_stream/5/","related":{"project":["/api/v2/projects/4/"],
+          (...)
+         
+Para examinar qué actividades se han realizado utilizando la infraestructura de Ansible Tower, una opción es utilizar el activity_stream enlace de recursos. Realice una solicitud GET a ese recurso para recuperar la lista de flujos de actividad, como se muestra en el primer ejemplo.
+
+Parte de la información generada por la API no está disponible públicamente. Para acceder a este recurso, debe iniciar sesión con sus credenciales de usuario, como se muestra en el segundo ejemplo. Este resultado de la API está en formato JSON, que puede ser difícil de leer.
+
+### Monitoreo del estado de la Ansible Tower
+* Verifique la disponibilidad del servidor utilizando la pingAPI:
+
+          [user@demo ~]# curl -X GET https://tower.lab.example.com/api/v2/ping/ -k
+          {"instance_groups":[{"instances":["localhost"],"capacity":50,"name":"tower"}],"instances":[{"node":"localhost","heartbeat":"2018-05-07T07:33:47.569Z","version":"3.2.3","capacity":50}],"ha":false,"version":"3.2.3","active_node":"localhost"}
+
+* La salida incluye:
+* El estado del servidor
+* Estado del clúster de Ansible Tower HA
+* Nombre de nodo y disponibilidad
+* Marca de tiempo del latido del corazón
+* Versión Ansible Tower
+
+# tower-cli Mando
+### Instalando tower-cli
+* Use tower-clipara ejecutar comandos de Ansible Tower desde la línea de comandos
+* Obtenga tower-clide estas fuentes:
+* Como un paquete en PyPI
+* enlace: https: //github.com/ansible/tower-cli [a través de GitHub ^]
+* Como RPM del repositorio Fedora EPEL Yum
+* Instalar a través de pip:
+
+          [user@demo ~]# pip install ansible-tower-cli
+
+### Configurando tower-cli
+* tower-cli puede editar su propia configuración, o los usuarios pueden editar directamente el archivo de configuración
+* Configuración almacenada en .tower_cli.cfg archivo oculto en el directorio de inicio
+
+Metodo preferido:
+
+          [user@demo ~]# tower-cli config key value
+          Obtenga la lista de opciones de configuración:
+
+          [user@demo ~]# tower-cli config
+          # User options (set with `tower-cli config`; stored in ~/.tower_cli.cfg).
+          host: tower.lab.example.com
+          username: admin
+          password: redhat
+
+          # Defaults.
+          description_on: False
+          verbose: False
+          certificate:
+          format: human
+          color: True
+          verify_ssl: True
+          
+
+### Configurando tower-cli
+
+Establecer host opción:
+
+          [user@demo ~]# tower-cli config host tower.demo.com
+          
+Establecer usernameopción:
+
+          [user@demo ~]# tower-cli config username Demo
+
+Establecer passwordopción:
+
+          [user@demo ~]# tower-cli config password myDemoPassword
+
+Compruebe Ansible Tower y tower-cliversiones:
+
+          [user@demo] tower-cli version
+          Tower CLI 3.3.0
+          API v2
+          Ansible Tower 3.2.3
+          Ansible 2.5.2
+          
+
+### Utilizando tower-cli
+Formato de uso:
+
+          [user@demo ~]# tower-cli {resource} {action} ...
+
+Ejemplo de lanzamiento de trabajo:
+
+          [user@demo ~]# tower-cli job launch --job-template=33
+
+Ejemplo de monitoreo de trabajo:
+
+          [user@demo ~]# tower-cli job monitor 33
+          
+#### Casos de uso
+tower-cli casos de uso:
+* Obtener acceso a Ansible Tower a través de un script
+* Lanzar trabajos desde sistemas remotos o scripts
+* Casos de uso de API REST:
+* Integrando aplicaciones de gestión del sistema con Ansible Tower
+* Red Hat Satellite Server 6
+* Red Hat CloudForms
+
