@@ -37,3 +37,20 @@ El uso del inventario dinámico es la práctica recomendada en entornos de TI gr
 * Desafío para mantener un archivo de inventario preciso
 * Ansible Tower facilita el uso de proveedores de nube compatibles como fuente de inventario
 * Primer paso: crear las credenciales apropiadas
+
+### Scripts de inventario personalizados
+* Ansible Tower admite el uso de scripts personalizados para extraer la información requerida de fuentes no compatibles
+* Los scripts personalizados pueden usar cualquier lenguaje dinámico instalado en Ansible Tower
+
+* Ejemplos: Python, shell
+* Requisitos de guión:
+* Debe comenzar con la línea shebang
+
+      Bash shell: #!/bin/bash
+
+      Python: #!/usr/bin/python
+      
+* Debe ser propiedad del awxusuario
+* Debe recuperar el inventario de una fuente externa a través de la red
+* Ansible Tower invoca el script con la --list opción
+* Devuelve un hash o diccionario JSON de todos los grupos que se administrarán
